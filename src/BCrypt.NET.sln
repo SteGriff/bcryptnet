@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BCryptNET", "BCryptNET\BCryptNET.csproj", "{32D9B30D-B234-414F-9655-DB4F63AA2CD8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BCryptNET.Tests", "BCryptNET.Tests\BCryptNET.Tests.csproj", "{FD4F3009-9DE1-4535-9B2B-C6A826BAD6CC}"
