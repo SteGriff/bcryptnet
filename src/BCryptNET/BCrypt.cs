@@ -19,7 +19,7 @@ using System.Globalization;
 using System.Security.Cryptography;
 using System.Text;
 
-[assembly: System.Reflection.AssemblyVersion("0.1")]
+[assembly: System.Reflection.AssemblyVersion("0.2")]
 
 /// <summary>BCrypt implements OpenBSD-style Blowfish password hashing
 /// using the scheme described in "A Future-Adaptable Password Scheme"
@@ -28,7 +28,7 @@ using System.Text;
 /// <para>This password hashing system tries to thwart offline
 /// password cracking using a computationally-intensive hashing
 /// algorithm, based on Bruce Schneier's Blowfish cipher. The work
-/// factor of the algorithm is parametized, so it can be increased as
+/// factor of the algorithm is parameterized, so it can be increased as
 /// computers get faster.</para>
 /// <para>To hash a password for the first time, call the
 /// <c>HashPassword</c> method with a random salt, like this:</para>
@@ -711,12 +711,13 @@ public class BCrypt {
     /// <param name="logRounds">The log2 of the number of rounds of
     /// hashing to apply. The work factor therefore increases as (2 **
     /// logRounds).</param>
+	/// <param name="random">An instance of RandomNumberGenerator to use.</param>
     /// <returns>An encoded salt value.</returns>
-    public static string GenerateSalt(int logRounds) {
+    public static string GenerateSalt(int logRounds, RandomNumberGenerator random) {
 
         byte[] randomBytes = new byte[BCRYPT_SALT_LEN];
 
-        RandomNumberGenerator.Create().GetBytes(randomBytes);
+        random.GetBytes(randomBytes);
 
         StringBuilder rs = new StringBuilder((randomBytes.Length * 2) + 8);
 
@@ -730,6 +731,17 @@ public class BCrypt {
 
         return rs.ToString();
     }
+
+	/// <summary>
+	/// Generate a salt for use with the <c>BCrypt.HashPassword()</c> method.
+	/// </summary>
+	/// <param name="logRounds">The log2 of the number of rounds of 
+	/// hashing to apply. The work factor therefore increases as (2 **
+	/// logRounds).</param>
+	/// <returns>An encoded salt value.</returns>
+	public static string GenerateSalt(int logRounds) {
+		return GenerateSalt(logRounds, RandomNumberGenerator.Create());
+	}
 
     /// <summary>
     /// Generate a salt for use with the <c>BCrypt.HashPassword()</c>
