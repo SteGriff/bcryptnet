@@ -19,7 +19,7 @@ using System.Globalization;
 using System.Security.Cryptography;
 using System.Text;
 
-[assembly: System.Reflection.AssemblyVersion("0.2")]
+[assembly: System.Reflection.AssemblyVersion("0.3")]
 
 /// <summary>BCrypt implements OpenBSD-style Blowfish password hashing
 /// using the scheme described in "A Future-Adaptable Password Scheme"
@@ -661,15 +661,16 @@ public class BCrypt {
         }
 
         int offset;
-        if (salt[1] != '$') {
-            minor = salt[2];
-            if (minor != 'a' || salt[3] != '$') {
-                throw new ArgumentException("Invalid salt revision");
-            }
-            offset = 4;
-        } else {
-            offset = 3;
-        }
+		if (salt[2] == '$') {
+			offset = 3;
+		}
+		else {
+			minor = salt[2];
+			if (minor != 'a' || salt[3] != '$') {
+				throw new ArgumentException("Invalid salt revision");
+			}
+			offset = 4;
+		}
 
         // Extract number of rounds
         if (salt[offset + 2] > '$') {
